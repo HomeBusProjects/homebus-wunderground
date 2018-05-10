@@ -1,0 +1,27 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    addressable (2.5.2)
+      public_suffix (>= 2.0.2, < 4.0)
+    dotenv (2.4.0)
+    httparty (0.16.2)
+      multi_xml (>= 0.5.2)
+    json (2.1.0)
+    mqtt (0.5.0)
+    multi_xml (0.6.0)
+    public_suffix (3.0.2)
+    wunderground (1.2.0)
+      addressable
+      httparty (> 0.6.0)
+      json (> 1.4.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  dotenv
+  mqtt
+  wunderground
+
+BUNDLED WITH
+   1.16.1
