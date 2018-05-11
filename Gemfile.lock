@@ -1,3 +1,8 @@
+PATH
+  remote: vendor/ruby-homebus
+  specs:
+    homebus (0.1.5)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -20,6 +25,7 @@ PLATFORMS
 
 DEPENDENCIES
   dotenv
+  homebus!
   mqtt
   wunderground
 
