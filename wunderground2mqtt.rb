@@ -22,7 +22,7 @@ pp mqtt
 if mqtt[:host].nil?
   puts 'host is nil'
 
-  mqtt = HomeBus.provision "wu:nd:er:gr:ou:nd"
+  mqtt = HomeBus.provision "11:22:33:44:55:66"
   unless mqtt
     abort 'MQTT provisioning failed'
   end
@@ -46,7 +46,7 @@ payload = {
   temp_f: results["current_observation"]['temp_f'],
   humidity: results["current_observation"]['relative_humidity'],
   pressure: results["current_observation"]['pressure_mb'],
-  device_uuid: "00-11-22-33-44"
+  device_uuid: uuid
 }
 
 client.publish "environmental/weather", payload.to_json

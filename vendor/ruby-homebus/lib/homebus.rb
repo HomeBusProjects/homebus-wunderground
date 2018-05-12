@@ -9,7 +9,7 @@ class HomeBus
   # uuid, mqtt_hostname, mqtt_port, mqtt_username, mqtt_password
   # save this in .env.provision and return it in the mqtt parameter
   def self.provision(mac_address)
-    uri = URI('http://127.0.0.1:3000/provision')
+    uri = URI('http://homebus/provision')
 
     request = {
       provision: {
