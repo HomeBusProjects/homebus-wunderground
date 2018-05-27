@@ -1,5 +1,5 @@
 PATH
-  remote: vendor/ruby-homebus
+  remote: ../ruby-homebus
   specs:
     homebus (0.1.5)
 

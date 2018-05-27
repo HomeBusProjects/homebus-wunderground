@@ -22,7 +22,54 @@ pp mqtt
 if mqtt[:host].nil?
   puts 'host is nil'
 
-  mqtt = HomeBus.provision "11:22:33:44:55:66"
+  mqtt = HomeBus.provision(serial_number: '00-00-00-00',
+                           manufacturer: 'Homebus',
+                           model: 'Wunderground',
+                           friendly_name: 'Wunderground',
+                           pin: '',
+                           devices: [ 
+                                      {
+                                        friendly_name: 'Wunderground temperature',
+                                        friendly_location: 'Wunderground',
+                                        update_frequency: 1000*60*5,
+                                        accuracy: 10,
+                                        precision: 100,
+                                        wo_topics: [ 'temperature' ],
+                                        ro_topics: [],
+                                        rw_topics: []
+                                      },
+                                      {
+                                        friendly_name: 'Wunderground humidity',
+                                        friendly_location: 'Wunderground',
+                                        update_frequency: 1000*60*5,
+                                        accuracy: 10,
+                                        precision: 100,
+                                        wo_topics: [ 'humidity' ],
+                                        ro_topics: [],
+                                        rw_topics: []
+                                      },
+                                      {
+                                        friendly_name: 'Wunderground pressure',
+                                        friendly_location: 'Wunderground',
+                                        update_frequency: 1000*60*5,
+                                        accuracy: 10,
+                                        precision: 100,
+                                        wo_topics: [ 'pressure' ],
+                                        ro_topics: [],
+                                        rw_topics: []
+                                      },
+                                      {
+                                        friendly_name: 'Wunderground light',
+                                        friendly_location: 'Wunderground',
+                                        update_frequency: 1000*60*5,
+                                        accuracy: 10,
+                                        precision: 100,
+                                        wo_topics: [ 'light' ],
+                                        ro_topics: [],
+                                        rw_topics: []
+                                      } ] )
+                                                        
+
   unless mqtt
     abort 'MQTT provisioning failed'
   end
