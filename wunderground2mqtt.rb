@@ -9,6 +9,11 @@ require 'homebus'
 
 Dotenv.load '.env.provision'
 
+# update frequency in seconds
+UPDATE_FREQUENCY = 5*60
+
+opts = []
+
 mqtt = { host: ENV['MQTT_HOSTNAME'],
          port: ENV['MQTT_PORT'],
          username: ENV['MQTT_USERNAME'],
@@ -17,11 +22,9 @@ mqtt = { host: ENV['MQTT_HOSTNAME'],
 
 uuid = ENV['UUID']
 
-pp mqtt
+pp mqtt if opts[:debug]
 
 if mqtt[:host].nil?
-  puts 'host is nil'
-
   mqtt = HomeBus.provision(serial_number: '00-00-00-00',
                            manufacturer: 'Homebus',
                            model: 'Wunderground',
@@ -31,7 +34,7 @@ if mqtt[:host].nil?
                                       {
                                         friendly_name: 'Wunderground temperature',
                                         friendly_location: 'Wunderground',
-                                        update_frequency: 1000*60*5,
+                                        update_frequency: 1000*UPDATE_FREQUENCY,
                                         accuracy: 10,
                                         precision: 100,
                                         wo_topics: [ 'temperature' ],
@@ -41,7 +44,7 @@ if mqtt[:host].nil?
                                       {
                                         friendly_name: 'Wunderground humidity',
                                         friendly_location: 'Wunderground',
-                                        update_frequency: 1000*60*5,
+                                        update_frequency: 1000*UPDATE_FREQUENCY,
                                         accuracy: 10,
                                         precision: 100,
                                         wo_topics: [ 'humidity' ],
@@ -51,7 +54,7 @@ if mqtt[:host].nil?
                                       {
                                         friendly_name: 'Wunderground pressure',
                                         friendly_location: 'Wunderground',
-                                        update_frequency: 1000*60*5,
+                                        update_frequency: 1000*UPDATE_FREQUENCY,
                                         accuracy: 10,
                                         precision: 100,
                                         wo_topics: [ 'pressure' ],
@@ -64,7 +67,7 @@ if mqtt[:host].nil?
     abort 'MQTT provisioning failed'
   end
 
-  pp mqtt
+  pp mqtt if opts[:debug]
 
   uuid = mqtt[:uuid]
   mqtt.delete :uuid
@@ -77,20 +80,21 @@ wun = Wunderground.new ENV['WUNDERGROUND_API_KEY']
 loop do
   results = wun.forecast_and_conditions_for ENV['WUNDERGROUND_LOCATION']
 
-  puts results["current_observation"]["temp_f"]
-
   client = MQTT::Client.connect mqtt
 
   payload = {
     temp_f: results["current_observation"]['temp_f'],
     humidity: results["current_observation"]['relative_humidity'],
     pressure: results["current_observation"]['pressure_mb'],
-    device_uuid: uuid
+    uuid: uuid,
+    timestamp: Time.now.to_i
   }
+
+  pp payload if opts[:verbose]
   
   client.publish "environmental/weather", payload.to_json
 
-  sleep(5*60)
+  sleep(UPDATE_FREQUENCY)
 end
 
 # {"response"=>
