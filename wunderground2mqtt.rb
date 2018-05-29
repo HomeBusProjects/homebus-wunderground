@@ -73,20 +73,25 @@ end
 
 
 wun = Wunderground.new ENV['WUNDERGROUND_API_KEY']
-results = wun.forecast_and_conditions_for ENV['WUNDERGROUND_LOCATION']
 
-puts results["current_observation"]["temp_f"]
+loop do
+  results = wun.forecast_and_conditions_for ENV['WUNDERGROUND_LOCATION']
 
-client = MQTT::Client.connect mqtt
+  puts results["current_observation"]["temp_f"]
 
-payload = {
-  temp_f: results["current_observation"]['temp_f'],
-  humidity: results["current_observation"]['relative_humidity'],
-  pressure: results["current_observation"]['pressure_mb'],
-  device_uuid: uuid
-}
+  client = MQTT::Client.connect mqtt
 
-client.publish "environmental/weather", payload.to_json
+  payload = {
+    temp_f: results["current_observation"]['temp_f'],
+    humidity: results["current_observation"]['relative_humidity'],
+    pressure: results["current_observation"]['pressure_mb'],
+    device_uuid: uuid
+  }
+  
+  client.publish "environmental/weather", payload.to_json
+
+  sleep(5*60)
+end
 
 # {"response"=>
 #   {"version"=>"0.1",
