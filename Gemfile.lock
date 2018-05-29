@@ -1,7 +1,8 @@
-PATH
-  remote: ../ruby-homebus
+GIT
+  remote: git@github.com:romkey/ruby-homebus.git
+  revision: 64d64f26adf2e82d4c8cb7219bdd534f2275f817
   specs:
-    homebus (0.1.5)
+    homebus (0.3.1)
 
 GEM
   remote: https://rubygems.org/

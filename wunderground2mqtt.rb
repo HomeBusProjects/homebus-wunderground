@@ -57,16 +57,6 @@ if mqtt[:host].nil?
                                         wo_topics: [ 'pressure' ],
                                         ro_topics: [],
                                         rw_topics: []
-                                      },
-                                      {
-                                        friendly_name: 'Wunderground light',
-                                        friendly_location: 'Wunderground',
-                                        update_frequency: 1000*60*5,
-                                        accuracy: 10,
-                                        precision: 100,
-                                        wo_topics: [ 'light' ],
-                                        ro_topics: [],
-                                        rw_topics: []
                                       } ] )
                                                         
 
